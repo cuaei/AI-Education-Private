@@ -1,0 +1,6 @@
+starter
+__pycache__
+*.zip
+reference/backend/app.py
+reference/student_checks.py
+reference/README.md

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>模擬網上商店 · Java 後端實習</title>
+<style>
+  body { font-family: "Microsoft YaHei", "PingFang TC", sans-serif; margin: 0; background: #f4f7f6; color: #16302b; }
+  header { background: #10403a; color: #fff; padding: 18px 28px; }
+  header h1 { margin: 0 0 6px; font-size: 22px; }
+  header p { margin: 0; opacity: .8; font-size: 14px; }
+  main { max-width: 1080px; margin: 24px auto; padding: 0 16px; display: grid; gap: 18px; }
+  section { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(16,64,58,.06); }
+  h2 { margin-top: 0; font-size: 18px; }
+  label { display: block; margin: 10px 0 4px; font-size: 14px; }
+  input { padding: 8px 10px; border: 1px solid #c6d6d1; border-radius: 6px; min-width: 200px; }
+  button { margin-top: 12px; padding: 9px 18px; border: 0; border-radius: 6px; background: #14796a; color: #fff; cursor: pointer; }
+  button.secondary { background: #e2ecea; color: #10403a; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
+  th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e6eeec; }
+  .money { font-variant-numeric: tabular-nums; }
+  #status { white-space: pre-wrap; font-size: 14px; background: #f0f6f4; padding: 12px; border-radius: 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+</style>
+</head>
+<body>
+<header>
+  <h1>模擬網上商店</h1>
+  <p>這是平台內的模擬實習環境，商品與訂單皆為虛構資料，重新啟動伺服器就會還原。</p>
+</header>
+<main>
+  <section>
+    <h2>1. 查詢商品</h2>
+    <div class="row">
+      <div><label for="keyword">關鍵字（留空顯示全部）</label><input id="keyword" placeholder="例如：鍵盤"></div>
+      <div><button onclick="loadProducts()">查詢商品</button></div>
+    </div>
+    <table id="products"><thead><tr><th>商品</th><th>單價</th><th>庫存</th><th>商品編號</th></tr></thead><tbody></tbody></table>
+  </section>
+  <section>
+    <h2>2. 建立訂單</h2>
+    <div class="row">
+      <div><label for="customer">顧客編號</label><input id="customer" value="s01"></div>
+      <div><label for="productId">商品編號</label><input id="productId" value="p-keyboard"></div>
+      <div><label for="quantity">數量</label><input id="quantity" type="number" value="1"></div>
+      <div><button onclick="createOrder()">送出訂單</button></div>
+    </div>
+  </section>
+  <section>
+    <h2>3. 查看訂單</h2>
+    <button class="secondary" onclick="loadOrders()">重新整理我的訂單</button>
+    <table id="orders"><thead><tr><th>訂單編號</th><th>商品</th><th>數量</th><th>總額</th><th>狀態</th></tr></thead><tbody></tbody></table>
+  </section>
+  <section>
+    <h2>實際回應</h2>
+    <div id="status">尚未操作。若按鈕沒有反應，代表對應的後端功能還沒完成，請查看伺服器回應。</div>
+  </section>
+</main>
+<script>
+const money = cents => (cents / 100).toFixed(2) + ' 元';
+function show(data) { document.getElementById('status').textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2); }
+async function request(path, options) {
+  const response = await fetch(path, options);
+  const text = await response.text();
+  let body; try { body = JSON.parse(text); } catch { body = text; }
+  show({ http: response.status, body });
+  return { status: response.status, body };
+}
+async function loadProducts() {
+  const keyword = encodeURIComponent(document.getElementById('keyword').value.trim());
+  const { body } = await request('/api/products?keyword=' + keyword);
+  const rows = (body.products || []).map(p => `<tr><td>${p.name}</td><td class="money">${money(p.priceCents)}</td><td>${p.stock}</td><td>${p.id}</td></tr>`);
+  document.querySelector('#products tbody').innerHTML = rows.join('') || '<tr><td colspan="4">沒有符合的商品</td></tr>';
+}
+async function createOrder() {
+  const customerId = document.getElementById('customer').value.trim();
+  const payload = { productId: document.getElementById('productId').value.trim(), quantity: Number(document.getElementById('quantity').value) };
+  await request('/api/orders?customerId=' + encodeURIComponent(customerId), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+  loadProducts();
+}
+async function loadOrders() {
+  const customerId = encodeURIComponent(document.getElementById('customer').value.trim());
+  const { body } = await request('/api/orders?customerId=' + customerId);
+  const rows = (body.orders || []).map(o => `<tr><td>${o.id}</td><td>${o.productId}</td><td>${o.quantity}</td><td class="money">${money(o.totalCents)}</td><td>${o.status}</td></tr>`);
+  document.querySelector('#orders tbody').innerHTML = rows.join('') || '<tr><td colspan="5">尚無訂單</td></tr>';
+}
+loadProducts();
+</script>
+</body>
+</html>

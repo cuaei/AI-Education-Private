@@ -1,0 +1,10 @@
+FROM python:3.12-slim
+RUN useradd --uid 10002 --create-home checker
+WORKDIR /checker
+COPY training/java-practice/checks/core_name_checker.py /checker/core_name_checker.py
+COPY backend/java_executor.py /checker/backend/java_executor.py
+RUN touch /checker/backend/__init__.py
+RUN chmod 0644 /checker/core_name_checker.py
+ENV PYTHONPATH=/checker
+USER 10002:10002
+ENTRYPOINT ["python", "/checker/core_name_checker.py"]
