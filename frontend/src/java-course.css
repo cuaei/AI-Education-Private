@@ -1,0 +1,98 @@
+/* 綜合實作與模擬實習：交接軌版式。沿用既有青綠品牌，狀態印章是唯一的視覺重點。 */
+.jc-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px max(24px,calc((100vw - 1200px)/2));background:#fff;border-bottom:1px solid var(--line)}
+.jc-back{border:0;background:none;color:var(--teal);font-size:13px;padding:4px 0}
+.jc-back:hover{text-decoration:underline}
+.jc-remaining{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.jc-main{display:block;max-width:1200px;margin:auto;padding:34px 24px 80px}
+.jc-intro h1{font-size:30px;letter-spacing:-.8px;margin-bottom:10px}
+.jc-intro p{max-width:760px;color:#58726e;font-size:13px}
+.jc-alert{margin-top:16px;padding:12px 15px;border-radius:8px;border:1px solid #efd5c9;background:#fdf1eb;color:#a8684a;font-size:12px}
+.jc-layout{display:grid;grid-template-columns:minmax(0,330px) minmax(0,1fr);gap:34px;margin-top:30px;align-items:start}
+.jc-rail{position:sticky;top:20px}
+.jc-rail ol{list-style:none;margin:0;padding:0;position:relative}
+.jc-rail ol:before{content:'';position:absolute;left:15px;top:16px;bottom:16px;width:2px;background:#d5e4df}
+.jc-stage{position:relative;display:grid;grid-template-columns:32px 1fr;grid-template-areas:'index body' 'index stamp';gap:2px 12px;padding:14px 0 18px;cursor:default}
+.jc-stage-index{grid-area:index;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#eef4f2;border:2px solid #cfe0da;color:#6c8d86;font:600 13px Bahnschrift,"Microsoft YaHei UI",sans-serif;position:relative;z-index:1}
+.jc-stage.selected .jc-stage-index{background:var(--teal);border-color:var(--teal);color:#fff}
+.jc-stage.done .jc-stage-index{background:#2f7d55;border-color:#2f7d55;color:#fff}
+.jc-stage.locked .jc-stage-index{background:#f3f5f5;border-color:#dfe6e6;color:#a4b1b1}
+.jc-stage-body{grid-area:body;text-align:left;border:0;background:none;padding:0}
+.jc-stage-body strong{display:block;font-size:14px;color:var(--navy);line-height:1.5}
+.jc-stage.selected .jc-stage-body strong{color:var(--teal)}
+.jc-stage-body small{display:block;color:#7d9096;font-size:11px;line-height:1.75;margin-top:5px}
+.jc-stage-body:disabled strong{color:#9aa8ab}
+.jc-stage-body:disabled small{color:#a9b4b6}
+.jc-stamp{grid-area:stamp;justify-self:start;margin-top:8px;font-size:10px;letter-spacing:.4px;padding:3px 8px;border-radius:4px;border:1px solid #e0e8e8;color:#8298a0;background:#f6f9f9;font-variant-numeric:tabular-nums}
+.jc-stamp.done{color:#25684a;border-color:#c6e0d2;background:#eef8f2}
+.jc-stamp.active{color:#8a5a17;border-color:#efdcc0;background:#fdf6e9}
+.jc-stamp.locked{color:#9aa8ab}
+.jc-rail-note{font-size:11px;color:#8b9ba0;line-height:1.9;margin-top:18px;padding-left:44px}
+.jc-work{min-width:0}
+.jc-work-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.jc-work-head h2{font-size:21px;margin-bottom:6px}
+.jc-work-head p{font-size:12px;color:#7d9096;margin:0}
+.jc-attempts{text-align:right;flex-shrink:0}
+.jc-attempts strong{display:block;font:500 32px Bahnschrift,"Microsoft YaHei UI",sans-serif;color:var(--teal);line-height:1.1}
+.jc-attempts small{font-size:10px;color:#8b9ba0}
+.jc-upload{padding:22px 0 6px;display:grid;gap:16px}
+.jc-upload label{font-size:12px;color:#5f767d;display:grid;gap:8px}
+.jc-upload input[type=file]{padding:10px;border:1px dashed #b4cdd0;border-radius:8px;background:#f8fbfa}
+.jc-upload textarea{min-height:130px}
+.jc-upload>a{align-self:start;justify-self:start}
+.jc-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.jc-actions small{color:#8b9ba0;font-size:11px}
+.jc-locked{padding:22px;border:1px solid #efdcc0;background:#fdf8ef;border-radius:10px;margin-top:20px}
+.jc-locked h3{font-size:15px;color:#8a5a17;margin-bottom:8px}
+.jc-locked p{font-size:12px;color:#8a6f4b;margin:0}
+.jc-result{margin-top:26px;border:1px solid #efdcc0;background:#fdfaf3;border-radius:10px;padding:20px}
+.jc-result.passed{border-color:#cfe4d7;background:#f4faf6}
+.jc-result header{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.jc-result h3{font-size:16px;margin:0}
+.jc-result.passed h3{color:#25684a}
+.jc-score{font:500 20px Bahnschrift,"Microsoft YaHei UI",sans-serif;color:#3f5b55;font-variant-numeric:tabular-nums}
+.jc-result-note{font-size:12px;color:#6d8388;margin:10px 0 0}
+.jc-result table{margin-top:16px}
+.jc-result th{background:transparent;border-bottom:1px solid #e6ecea;padding:8px 10px}
+.jc-result td{padding:10px;border-bottom:1px solid #edf1f0;white-space:normal;vertical-align:top;font-size:12px}
+.jc-result td small{display:block;font-family:Consolas,monospace;font-size:9px;color:#9aabae;margin-top:3px}
+.jc-result tr.bad td:nth-child(2){color:#a8684a;font-weight:600}
+.jc-result tr.ok td:nth-child(2){color:#2f7d55;font-weight:600}
+.jc-ai{margin-top:26px;padding:20px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.jc-ai h3{font-size:15px;margin-bottom:6px}
+.jc-ai p{font-size:12px;color:#7d9096;margin:0}
+.jc-ai-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.jc-muted{font-size:11px;color:#9aabae;margin-top:10px}
+.jc-explain{white-space:pre-wrap;background:#f3f7f6;border-radius:8px;padding:14px;font-size:12px;line-height:1.9;color:#425c58;margin-top:14px;overflow-wrap:anywhere;font-family:inherit}
+.jc-design{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.jc-design h4{font-size:13px;color:#3f5b55;margin-bottom:10px}
+.jc-design p{font-size:12px;line-height:1.85;margin-bottom:10px;color:#5f767d}
+.jc-design em{color:#8b9ba0;font-size:11px}
+.jc-score-split{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin:8px 0 0;font-size:12px;color:#5f767d}
+.jc-score-split strong{color:#2f5a52}
+.jc-score-split strong.pending{color:#a8684a}
+.jc-design-pending{color:#8a5a17}
+.jc-design-note{background:#f6f9f8;border-radius:6px;padding:8px 10px;color:#425c58}
+.jc-history{margin-top:26px}
+.jc-history ul{list-style:none;padding:0;margin:10px 0 0}
+.jc-history li{padding:9px 0;border-bottom:1px solid #eef2f1;font-size:12px;color:#5f767d}
+.jc-history li small{display:block;margin-top:3px;color:#9aabae}
+.jc-history li.jc-reset{color:#8a5a17}
+.jr-panel .jr-table td{white-space:normal;vertical-align:middle}
+.jr-panel .jr-table td small{display:block;font-size:9px;color:#9aabae;margin-top:3px}
+.jr-designs{margin-top:24px;border-top:1px solid var(--line);padding-top:18px}
+.jr-designs h3{font-size:15px;margin-bottom:6px}
+.jr-designs>p{font-size:12px;line-height:1.8;color:#7d9096;margin-bottom:14px}
+.jr-design{border:1px solid #e6ecea;border-radius:9px;padding:14px 16px;margin-top:12px;background:#fbfdfc}
+.jr-design-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.jr-design-head strong{font-size:13px}
+.jr-design-head small{display:block;font-size:10px;color:#9aabae;margin-top:3px}
+.jr-design details{margin-top:10px}
+.jr-design summary{font-size:12px;color:#3f5b55;cursor:pointer}
+.jr-design-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.9;color:#5f767d;background:#f5f8f7;border-radius:6px;padding:10px 12px;margin-top:8px;max-height:220px;overflow-y:auto}
+.jr-design-form{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:12px}
+.jr-design-form label{font-size:11px;color:#7d9096;display:flex;flex-direction:column;gap:4px;min-width:110px}
+.jr-design-form label:nth-child(2){flex:1;min-width:220px}
+.jr-design-form input{font-size:12px;padding:7px 9px}
+.jr-design-meta{display:block;font-size:10px;color:#9aabae;margin-top:10px;line-height:1.7}
+@media(max-width:900px){.jc-layout{display:grid;grid-template-columns:minmax(0,1fr);width:100%;max-width:100%;align-items:start;gap:24px}.jc-rail{position:static}.jc-rail-note{padding-left:0}}
+@media(max-width:650px){.jc-top{padding:14px 16px;flex-wrap:wrap;gap:8px}.jc-main{padding:24px 16px 60px}.jc-intro h1{font-size:24px}.jc-work-head{flex-direction:column}.jc-attempts{text-align:left}.jc-result{padding:16px}.jc-result table{display:block;overflow-x:auto}.jc-work{overflow-wrap:anywhere}.jc-upload>a{justify-self:stretch;text-align:center}.jc-upload input[type=file]{width:100%;max-width:100%;font-size:11px}.jc-actions{flex-direction:column;align-items:stretch}.jc-actions .button{width:100%}.jc-ai-actions .button{width:100%}}

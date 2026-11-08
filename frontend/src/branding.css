@@ -1,0 +1,24 @@
+.brand-mark,.brand.light .brand-mark{
+ width:40px;
+ height:40px;
+ display:inline-block;
+ position:relative;
+ flex-shrink:0;
+ overflow:hidden;
+ border-radius:9px;
+ background:#fff;
+}
+.brand-mark::before,.brand-mark::after{content:none}
+.brand-mark img{
+ position:absolute;
+ top:50%;
+ left:50%;
+ width:145%;
+ height:145%;
+ max-width:none;
+ object-fit:contain;
+ transform:translate(-50%,-50%);
+}
+.brand.light .brand-mark{width:46px;height:46px}
+.brand.light small{letter-spacing:1px}
+@media(max-width:650px){.brand-mark{width:36px;height:36px}.brand.light .brand-mark{width:40px;height:40px}}
